@@ -51,4 +51,8 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+
+  ENV['TWITTER_KEY'] = "sLSrDBSnlxBGhz0j7tWhVIeex";
+  ENV['TWITTER_SECRET'] = "Bx6d74gw73U3SapPGvp4Ih5eaG8qHrKAh8vNar3v3bi9Hd3B4A";
 end
