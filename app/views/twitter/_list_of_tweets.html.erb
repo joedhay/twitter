@@ -1,0 +1,42 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Username</th>
+    <th>Tweet</th>
+    <th>Created</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tweets.each do |a| %>
+    <tr>
+      <td><%= a.user.screen_name %></td>
+      <td><%= a.text %></td>
+      <td><%= (a.created_at.in_time_zone).strftime("%Y-%m-%d %H:%M %p") %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<button class="btn btn-info new_tweet">
+  New Tweet
+</button>
+
+<script>
+  $(document).ready(function(){
+    $('.new_tweet').click(function(){
+      $('.message_div').show();
+    });
+
+    $('.post_tweet').click(function(){
+      var message = $('.message').val();
+      $.ajax({
+        method: "POST",
+        data: {message: message},
+        url: "/twitter/post_tweet"
+      }).done(function (data) {
+        $('.message_div').hide();
+        $('.message').val('');
+        $('.list_of_tweets').html(data);
+      });
+    })
+  });
+</script>

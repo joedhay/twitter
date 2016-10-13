@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="col-md-24" style="height:50px;"></div>
+  <label>Sign in as <%= @user.name%></label>
+  <label>
+    <a href="<%= logout_twitter_index_path %>">Logout</a>
+  </label>
+</div>
+<div class="container">
+ <div class="row list_of_tweets">
+   <table class="table">
+     <thead>
+     <tr>
+       <th>Username</th>
+       <th>Tweet</th>
+       <th>Created</th>
+     </tr>
+     </thead>
+     <tbody>
+     <% @tweets.each do |a| %>
+       <tr>
+         <td><%= a.user.screen_name %></td>
+         <td><%= a.text %></td>
+         <td><%= (a.created_at.in_time_zone).strftime("%Y-%m-%d %H:%M %p") %></td>
+       </tr>
+     <% end %>
+     </tbody>
+   </table>
+   <button class="btn btn-info new_tweet">
+     New Tweet
+   </button>
+ </div>
+  <div class="col-xs-12" style="height:20px;"></div>
+  <div class="col-md-24 message_div" style="display: none;">
+    <textarea class="form-control message" rows="3"></textarea>
+    <div class="col-md-24" style="height:10px;"></div>
+    <button class="btn btn-info post_tweet">
+      Post Tweet
+    </button>
+    <div class="col-md-24" style="height:10px;"></div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.new_tweet').click(function(){
+      $('.message_div').show();
+    });
+
+    $('.post_tweet').click(function(){
+       var message = $('.message').val();
+       $.ajax({
+       method: "POST",
+       data: {message: message},
+       url: "/twitter/post_tweet"
+       }).done(function (data) {
+         $('.message_div').hide();
+         $('.message').val('');
+         $('.list_of_tweets').html(data);
+       });
+    })
+  });
+</script>
